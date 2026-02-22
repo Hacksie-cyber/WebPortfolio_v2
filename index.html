@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prof. Engr. Don Nicole Bamuya | Cybersecurity • IoT • AI Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --accent: #38bdf8;
+            --accent-dark: #0284c7;
+            --bg: #0d1117;
+            --surface: #161b22;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: #e6edf3;
+            scroll-behavior: smooth;
+        }
+
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+
+        .glass-panel {
+            background: rgba(22, 27, 34, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(48, 54, 61, 0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel:hover {
+            border-color: var(--accent);
+            background: rgba(22, 27, 34, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .skill-pill {
+            background: #21262d;
+            border: 1px solid #30363d;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #c9d1d9;
+            transition: all 0.2s;
+        }
+
+        .skill-pill:hover {
+            border-color: var(--accent);
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .profile-glow {
+            box-shadow: 0 0 40px -10px rgba(56, 189, 248, 0.5);
+        }
+
+        /* --- Chatbot Styles --- */
+        #chat-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+
+        #chat-window {
+            width: 350px;
+            max-height: 500px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);
+        }
+
+        .message-bubble {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .ai-message {
+            background: #21262d;
+            color: #e6edf3;
+            align-self: flex-start;
+            border-bottom-left-radius: 0.2rem;
+        }
+
+        .user-message {
+            background: var(--accent);
+            color: black;
+            font-weight: 500;
+            align-self: flex-end;
+            border-bottom-right-radius: 0.2rem;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #6e7681;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="selection:bg-sky-500/30">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-t-0 border-x-0">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-gradient-to-br from-sky-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-sky-500/20">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg>
+                </div>
+                <span class="font-extrabold tracking-tight text-xl uppercase tracking-tighter hidden sm:block">Prof. Engr. Don Nicole Bamuya</span>
+            </div>
+            <div class="flex items-center gap-8 text-sm font-semibold text-gray-400">
+                <a href="#summary" class="hover:text-sky-400 transition-colors hidden md:block">Qualifications</a>
+                <a href="#projects" class="hover:text-sky-400 transition-colors hidden md:block">Applied Work</a>
+                <a href="#contact" class="px-5 py-2.5 bg-white text-black rounded-lg hover:bg-sky-500 hover:text-white transition-all">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 pt-36 pb-20">
+        
+        <!-- Hero Section -->
+        <section class="mb-24 grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 animate-in order-2 lg:order-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="section-tag">4+ Years Higher Education</span>
+                    <span class="text-xs font-mono text-gray-500">v3.0 // Engr_Profile</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tighter leading-[1.1]">
+                    <span class="text-sm block font-mono text-sky-400 mb-2">PROF. ENGR. DON NICOLE BAMUYA</span>
+                    Educating for <br/><span class="text-gradient underline decoration-sky-500/20 underline-offset-8">Secure & Intelligent</span> Systems.
+                </h1>
+                <p class="text-xl text-gray-400 max-w-2xl leading-relaxed mb-8 font-medium">
+                    Specializing in Cybersecurity, IoT, AI Prompting, and Raspberry Pi-based Image Processing. Shaping future engineers through hands-on system building.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#summary" class="px-8 py-4 bg-sky-600 text-white rounded-xl font-bold hover:bg-sky-500 shadow-xl shadow-sky-600/20 transition-all flex items-center gap-2">
+                        View Qualifications
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-5 animate-in order-1 lg:order-2 flex justify-center">
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-sky-500 to-purple-600 rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="relative w-64 h-80 md:w-80 md:h-[400px] rounded-3xl overflow-hidden border border-white/10 profile-glow">
+                        <img src="Engr.jpg" alt="Prof. Engr. Don Nicole Bamuya" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                            <p class="text-xs font-mono text-sky-400">Engineering Lead</p>
+                            <p class="text-sm font-bold uppercase tracking-widest text-white">Instructional Faculty</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills Matrix -->
+        <section id="skills" class="mb-24">
+            <h2 class="text-2xl font-bold mb-10 flex items-center gap-3">
+                Technical Skills Matrix
+                <span class="h-px bg-gray-800 flex-grow"></span>
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-sky-500 mb-4">Embedded & Hardware</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-pill">Raspberry Pi Ecosystem</span>
+                        <span class="skill-pill">ESP32/Arduino</span>
+                        <span class="skill-pill">Sensor Interfacing</span>
+                        <span class="skill-pill">PCB Analysis</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-purple-500 mb-4">IoT & Protocols</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-pill">MQTT/HTTP Protocols</span>
+                        <span class="skill-pill">Edge Computing</span>
+                        <span class="skill-pill">Node-RED</span>
+                        <span class="skill-pill">IoT Security</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-emerald-500 mb-4">AI & Cybersecurity</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-pill">AI Prompting</span>
+                        <span class="skill-pill">Ethical Hacking</span>
+                        <span class="skill-pill">Vulnerability Assessment</span>
+                        <span class="skill-pill">System Auditing</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid (Existing Content Kept for brevity) -->
+        <section id="projects" class="mb-24">
+             <h2 class="text-2xl font-bold mb-10">Key Applied Work: IoT & Embedded Systems</h2>
+             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 <div class="glass-panel p-6 rounded-2xl flex flex-col h-full">
+                     <span class="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Embedded Infrastructure</span>
+                     <h3 class="font-bold text-lg mb-3">Multi-Node Environmental Sensor Mesh</h3>
+                     <p class="text-sm text-gray-400 mb-6 flex-grow">Developed a scalable IoT mesh network using ESP32 nodes and Raspberry Pi gateways for real-time telemetry.</p>
+                     <div class="text-[10px] font-mono text-gray-500">ESP-NOW • MQTT • Grafana • Python</div>
+                 </div>
+                 <!-- Add more project cards as needed -->
+             </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="glass-panel p-12 rounded-[2.5rem] relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-sky-500/10 blur-[100px] -z-10"></div>
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-4xl font-extrabold mb-6">Connect for Collaboration</h2>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                    <a href="mailto:donnicole.bamuya@surigao.sti.edu.ph" class="px-10 py-4 bg-white text-black rounded-xl font-extrabold hover:bg-sky-500 hover:text-white transition-all">
+                        Send Inquiry
+                    </a>
+                </div>
+                <div class="text-[10px] font-bold text-gray-600 uppercase tracking-[0.3em] font-mono">Verified Faculty // Engr. Don Nicole Bamuya</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI CHAT WIDGET -->
+    <div id="chat-widget">
+        <!-- Chat Window -->
+        <div id="chat-window" class="glass-panel flex-col mb-4">
+            <div class="p-4 border-b border-white/10 flex justify-between items-center bg-sky-600/10">
+                <div>
+                    <h4 class="text-sm font-bold text-white">Engr. Don AI Assistant</h4>
+                    <p class="text-[10px] text-sky-400 font-mono uppercase">Online • Gemini 1.5 Pro</p>
+                </div>
+                <button onclick="toggleChat()" class="text-gray-400 hover:text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            
+            <div id="chat-messages" class="flex-grow p-4 overflow-y-auto flex flex-col h-[350px] scrollbar-hide">
+                <div class="message-bubble ai-message">
+                    Hello! I'm Engr. Don's AI representative. How can I help you regarding his work in IoT, Cybersecurity, or Engineering education?
+                </div>
+            </div>
+
+            <div id="typing-indicator" class="hidden px-4 py-2 flex gap-1">
+                <div class="typing-dot" style="animation-delay: 0s"></div>
+                <div class="typing-dot" style="animation-delay: 0.2s"></div>
+                <div class="typing-dot" style="animation-delay: 0.4s"></div>
+            </div>
+
+            <form id="chat-form" class="p-4 border-t border-white/10 flex gap-2">
+                <input type="text" id="user-input" placeholder="Ask about his projects..." 
+                       class="flex-grow bg-[#0d1117] border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-sky-500 transition-all">
+                <button type="submit" class="bg-sky-500 text-black p-2 rounded-lg hover:bg-sky-400 transition-colors">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- Toggle Button -->
+        <button onclick="toggleChat()" class="w-14 h-14 bg-sky-500 rounded-full flex items-center justify-center shadow-xl shadow-sky-500/20 hover:scale-110 transition-all float-right">
+            <svg id="chat-icon" class="text-black" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </button>
+    </div>
+
+    <footer class="py-12 border-t border-gray-900 text-center text-gray-600 text-[10px] font-bold uppercase tracking-widest">
+        &copy; 2024 Prof. Engr. Don Nicole Bamuya // Engineered for Strategic Career Placement.
+    </footer>
+
+    <script>
+        const chatWindow = document.getElementById('chat-window');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        function toggleChat() {
+            chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function addMessage(text, isUser = false) {
+            const msg = document.createElement('div');
+            msg.className = `message-bubble ${isUser ? 'user-message' : 'ai-message'}`;
+            msg.textContent = text;
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // Add user message to UI
+            addMessage(text, true);
+            userInput.value = '';
+
+            // Show typing
+            typingIndicator.classList.remove('hidden');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+                typingIndicator.classList.add('hidden');
+                addMessage(data.reply || "I'm having trouble connecting to my brain. Please try again later.");
+            } catch (error) {
+                typingIndicator.classList.add('hidden');
+                addMessage("Connection error. Ensure the Vercel Function is deployed.");
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
