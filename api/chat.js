@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
     if (!API_KEY) {
         return res.status(200).json({
-            reply: "⚠ DEBUG: Missing API key. Add GEMINI_API_KEY in Vercel Environment Variables and redeploy."
+            reply: "⚠ AI configuration issue. Please contact the administrator."
         });
     }
 
@@ -39,7 +39,7 @@ Your mission:
 ✔ Encourage learning and problem solving
 ✔ Maintain professional yet approachable tone
 
-Formatting rules (VERY IMPORTANT):
+Formatting rules:
 - Use markdown-style formatting
 - Add section headers
 - Use bullet points or numbered steps
@@ -56,7 +56,7 @@ Behavior rules:
 Always respond as a knowledgeable mentor and technical expert.
 `;
 
-    // 🧠 Convert conversation history to context (optional memory)
+    // 🧠 Conversation memory
     const historyContext = history
         .slice(-5)
         .map(h => `${h.role}: ${h.content}`)
@@ -81,11 +81,7 @@ Respond with clear structure and formatting.
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    contents: [
-                        {
-                            parts: [{ text: prompt }]
-                        }
-                    ],
+                    contents: [{ parts: [{ text: prompt }] }],
                     generationConfig: {
                         temperature: 0.7,
                         topK: 40,
@@ -98,9 +94,29 @@ Respond with clear structure and formatting.
 
         const data = await response.json();
 
-        if (data.error) {
+        // 🔥 Quota / rate-limit detection
+        if (!response.ok || data.error) {
+            const errorMsg = (data?.error?.message || "").toLowerCase();
+            const errorStatus = data?.error?.status || "";
+
+            const isQuotaError =
+                errorMsg.includes("quota") ||
+                errorMsg.includes("exceeded") ||
+                errorMsg.includes("rate") ||
+                errorMsg.includes("resource exhausted") ||
+                response.status === 429 ||
+                errorStatus === "RESOURCE_EXHAUSTED";
+
+            if (isQuotaError) {
+                return res.status(200).json({
+                    reply:
+                        "🚫 The AI assistant is temporarily unavailable due to usage limits. Please try again later."
+                });
+            }
+
             return res.status(200).json({
-                reply: `❌ Google API Error: ${data.error.message}`
+                reply:
+                    "⚠ The AI service is currently experiencing issues. Please try again shortly."
             });
         }
 
@@ -109,7 +125,8 @@ Respond with clear structure and formatting.
 
         if (!textOutput) {
             return res.status(200).json({
-                reply: "⚠ Gemini returned an empty response. Try again."
+                reply:
+                    "⚠ The AI returned an empty response. Please retry."
             });
         }
 
@@ -117,7 +134,8 @@ Respond with clear structure and formatting.
 
     } catch (error) {
         return res.status(200).json({
-            reply: `🚨 Server Error: ${error.message}`
+            reply:
+                "🚨 The AI service is temporarily unavailable. Please try again later."
         });
     }
 }
