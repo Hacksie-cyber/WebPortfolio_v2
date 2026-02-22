@@ -43,6 +43,7 @@ My Personal Info
 - Work in STI College Surigao
 - Hobby: gym, bike, coding
 - Working Email/Contact: donnicole.bamuya@surigao.sti.edu.ph
+-facebook: https://www.facebook.com/nicole.bamuya/
 
 
 Goal:
